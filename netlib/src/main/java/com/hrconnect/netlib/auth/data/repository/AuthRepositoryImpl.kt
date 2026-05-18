@@ -15,7 +15,11 @@ class AuthRepositoryImpl(
     private val tokenManager: TokenManager,
 ) : AuthRepository {
 
-    override suspend fun login(username: String, password: String): Result<AuthResponse> {
+    override suspend fun login(
+        username: String,
+        password: String,
+        rememberUser: Boolean,
+    ): Result<AuthResponse> {
         return safeCall(
             tag = TAG,
             message = "Авторизация"
@@ -26,7 +30,9 @@ class AuthRepositoryImpl(
                     password = password
                 )
             ).toAuthResponse()
-            tokenManager.saveToken(authResponse.accessToken)
+            if (rememberUser) {
+                tokenManager.saveToken(authResponse.accessToken)
+            }
             authResponse
         }
     }

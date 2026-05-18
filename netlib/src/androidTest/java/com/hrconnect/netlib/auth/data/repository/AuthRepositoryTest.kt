@@ -4,7 +4,6 @@ import com.google.common.truth.Truth.assertThat
 import com.hrconnect.netlib.auth.domain.model.User
 import com.hrconnect.netlib.auth.domain.repository.AuthRepository
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
 import org.junit.Test
 import org.koin.test.KoinTest
 import org.koin.test.inject
@@ -12,16 +11,6 @@ import org.koin.test.inject
 class AuthRepositoryTest : KoinTest {
 
     val authRepository: AuthRepository by inject()
-
-    @Before
-    fun setUp() {
-        runBlocking {
-            authRepository.login(
-                username = "emilys",
-                password = "emilyspass"
-            )
-        }
-    }
 
     @Test
     fun login_returnsAuthResponse() = runBlocking {
@@ -40,6 +29,10 @@ class AuthRepositoryTest : KoinTest {
 
     @Test
     fun getProfileByToken_returnsUser() = runBlocking {
+        authRepository.login(
+            username = "emilys",
+            password = "emilyspass"
+        )
         val mockUser = User(
             id = 1,
             email = "emily.johnson@x.dummyjson.com",
