@@ -14,7 +14,7 @@ android {
     defaultConfig {
         minSdk = 34
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.hrconnect.netlib.InstrumentationTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
     compileOptions {
@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.logcat)
-    testImplementation(libs.kotlinx.coroutines.test)
-    implementation(libs.truth)
+    androidTestImplementation(libs.koin.test)
+    androidTestImplementation(libs.koin.test.junit4)
+    androidTestImplementation(libs.truth)
 }

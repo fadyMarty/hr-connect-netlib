@@ -11,9 +11,17 @@ import com.hrconnect.netlib.auth.domain.repository.AuthRepository
 import com.hrconnect.netlib.candidate.data.remote.CandidateApi
 import com.hrconnect.netlib.common.util.Constants
 import com.hrconnect.netlib.dictionary.data.remote.DictionaryApi
+import com.hrconnect.netlib.dictionary.data.repository.DictionaryRepositoryImpl
+import com.hrconnect.netlib.dictionary.domain.repository.DictionaryRepository
 import com.hrconnect.netlib.employee.data.remote.EmployeeApi
+import com.hrconnect.netlib.employee.data.repository.EmployeeRepositoryImpl
+import com.hrconnect.netlib.employee.domain.repository.EmployeeRepository
 import com.hrconnect.netlib.hirining.data.remote.HiringApi
+import com.hrconnect.netlib.hirining.data.repository.HiringRepositoryImpl
+import com.hrconnect.netlib.hirining.domain.repository.HiringRepository
 import com.hrconnect.netlib.vacancy.data.remote.VacancyApi
+import com.hrconnect.netlib.vacancy.data.repository.VacancyRepositoryImpl
+import com.hrconnect.netlib.vacancy.domain.repository.VacancyRepository
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -72,4 +80,8 @@ val netLibModule = module {
 
     singleOf(::TokenManagerImpl).bind<TokenManager>()
     singleOf(::AuthRepositoryImpl).bind<AuthRepository>()
+    singleOf(::VacancyRepositoryImpl).bind<VacancyRepository>()
+    singleOf(::EmployeeRepositoryImpl).bind<EmployeeRepository>()
+    singleOf(::HiringRepositoryImpl).bind<HiringRepository>()
+    singleOf(::DictionaryRepositoryImpl).bind<DictionaryRepository>()
 }
