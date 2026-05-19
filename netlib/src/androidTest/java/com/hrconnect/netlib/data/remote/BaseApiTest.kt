@@ -1,7 +1,6 @@
-package com.hrconnect.netlib.common.util
+package com.hrconnect.netlib.data.remote
 
 import com.hrconnect.netlib.data.manager.TokenManager
-import com.hrconnect.netlib.data.remote.AuthApi
 import com.hrconnect.netlib.data.remote.dto.AuthResponseDto
 import com.hrconnect.netlib.data.remote.dto.LoginRequestDto
 import kotlinx.coroutines.runBlocking

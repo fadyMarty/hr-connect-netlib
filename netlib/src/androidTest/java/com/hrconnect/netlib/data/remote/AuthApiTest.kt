@@ -1,7 +1,7 @@
 package com.hrconnect.netlib.data.remote
 
 import com.google.common.truth.Truth
-import com.hrconnect.netlib.common.util.BaseApiTest
+import com.hrconnect.netlib.data.remote.BaseApiTest
 import com.hrconnect.netlib.data.remote.dto.UserDto
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
