@@ -1,7 +1,9 @@
 package com.hrconnect.netlib.di
 
 import com.hrconnect.netlib.common.util.Constants
+import com.hrconnect.netlib.data.manager.TokenManager
 import com.hrconnect.netlib.data.remote.AuthApi
+import com.hrconnect.netlib.data.remote.AuthInterceptor
 import com.hrconnect.netlib.data.remote.CandidateApi
 import com.hrconnect.netlib.data.remote.DictionaryApi
 import com.hrconnect.netlib.data.remote.EmployeeApi
@@ -9,11 +11,25 @@ import com.hrconnect.netlib.data.remote.HiringApi
 import com.hrconnect.netlib.data.remote.VacancyApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
-val netLibModule = module {
+val testNetLibModule = module {
+    singleOf(::TokenManager)
+    singleOf(::AuthInterceptor)
+    single {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(get<AuthInterceptor>())
+            .build()
+    }
     single {
         Json {
             ignoreUnknownKeys = true
@@ -25,9 +41,9 @@ val netLibModule = module {
         Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(get<Json>().asConverterFactory(contentType))
+            .client(get())
             .build()
     }
-
     single {
         get<Retrofit>().create(AuthApi::class.java)
     }

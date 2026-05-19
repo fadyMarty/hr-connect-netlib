@@ -40,7 +40,6 @@ dependencies {
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
-    implementation(libs.androidx.datastore.preferences)
     implementation(libs.logcat)
     androidTestImplementation(libs.koin.test)
     androidTestImplementation(libs.koin.test.junit4)
