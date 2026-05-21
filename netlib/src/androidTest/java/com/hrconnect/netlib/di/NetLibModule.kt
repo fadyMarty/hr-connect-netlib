@@ -12,7 +12,6 @@ import com.hrconnect.netlib.data.remote.VacancyApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -22,11 +21,7 @@ val netLibModule = module {
     singleOf(::TokenManager)
     singleOf(::AuthInterceptor)
     single {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-
         OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
             .addInterceptor(get<AuthInterceptor>())
             .build()
     }

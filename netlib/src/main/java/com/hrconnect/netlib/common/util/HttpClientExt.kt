@@ -31,3 +31,26 @@ suspend fun <T> safeCall(
         Result.failure(e)
     }
 }
+
+suspend fun <T> logCall(
+    tag: String,
+    message: String,
+    execute: suspend () -> T,
+): T {
+    try {
+        logcat(tag, INFO) { "Начало операции — $message" }
+        val response = execute()
+        logcat(tag) { "Успешно — $message (ответ: $response)" }
+        return response
+    } catch (e: HttpException) {
+        logcat(tag, ERROR) { "Ошибка — $message (код ${e.code()})" }
+        throw e
+    } catch (e: IOException) {
+        logcat(tag, ERROR) { "Ошибка — $message (отсутствует соединение с сетью Интернет)" }
+        throw e
+    } catch (e: Exception) {
+        currentCoroutineContext().ensureActive()
+        logcat(tag, ERROR) { "Ошибка — $message (ошибка: ${e.asLog()})" }
+        throw e
+    }
+}

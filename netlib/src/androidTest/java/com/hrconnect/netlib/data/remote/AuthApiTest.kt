@@ -1,11 +1,10 @@
 package com.hrconnect.netlib.data.remote
 
 import com.google.common.truth.Truth
-import com.hrconnect.netlib.data.remote.BaseApiTest
+import com.hrconnect.netlib.common.util.logCall
 import com.hrconnect.netlib.data.remote.dto.UserDto
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
-import org.koin.test.inject
 
 class AuthApiTest : BaseApiTest() {
 
@@ -30,8 +29,17 @@ class AuthApiTest : BaseApiTest() {
             image = "https://dummyjson.com/icon/emilys/128",
             role = "admin"
         )
-        val user = authApi.getProfileByToken()
+        val user = logCall(
+            tag = TAG,
+            message = "Получение профиля по токену"
+        ) {
+            authApi.getProfileByToken()
+        }
 
         Truth.assertThat(user).isEqualTo(mockUser)
+    }
+
+    companion object {
+        private const val TAG = "AuthApiTest"
     }
 }

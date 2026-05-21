@@ -1,5 +1,6 @@
 package com.hrconnect.netlib.data.remote
 
+import com.hrconnect.netlib.common.util.logCall
 import com.hrconnect.netlib.data.manager.TokenManager
 import com.hrconnect.netlib.data.remote.dto.AuthResponseDto
 import com.hrconnect.netlib.data.remote.dto.LoginRequestDto
@@ -16,12 +17,21 @@ abstract class BaseApiTest : KoinTest {
 
     @Before
     fun authenticate() = runBlocking {
-        authResponse = authApi.login(
-            request = LoginRequestDto(
-                username = "emilys",
-                password = "emilyspass"
+        authResponse = logCall(
+            tag = TAG,
+            message = "Авторизация"
+        ) {
+            authApi.login(
+                request = LoginRequestDto(
+                    username = "emilys",
+                    password = "emilyspass"
+                )
             )
-        )
+        }
         tokenManager.saveToken(authResponse.accessToken)
+    }
+
+    companion object {
+        private const val TAG = "BaseApiTest"
     }
 }
