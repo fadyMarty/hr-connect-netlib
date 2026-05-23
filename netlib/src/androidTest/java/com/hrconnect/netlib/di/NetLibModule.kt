@@ -17,6 +17,9 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
+/**
+ * DI-модуль для тестирования библиотеки NetLib
+ */
 val netLibModule = module {
     singleOf(::TokenManager)
     singleOf(::AuthInterceptor)

@@ -4,10 +4,23 @@ import com.hrconnect.netlib.data.manager.TokenManager
 import okhttp3.Interceptor
 import okhttp3.Response
 
+/**
+ * Интерсептор для автоматического добавления заголовка Authorization с токеном в запросы.
+ *
+ * Дата создания: 26-05-2026.
+ * Автор создания: 1.
+ */
 class AuthInterceptor(
     private val tokenManager: TokenManager,
 ) : Interceptor {
 
+    /**
+     * Функция для перехвата исходящего запроса и добавления в него заголовка Authorization с токеном.
+     *
+     * @param chain цепочка обработки запроса.
+     *
+     * @return ответ сервера после выполнения измененного запроса.
+     */
     override fun intercept(chain: Interceptor.Chain): Response {
         val token = tokenManager.getToken()
         val request = chain.request()

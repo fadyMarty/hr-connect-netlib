@@ -9,13 +9,29 @@ import logcat.logcat
 import retrofit2.HttpException
 import java.io.IOException
 
+/**
+ * Утилиты для выполнения сетевых запросов с логированием и обработкой ошибок.
+ *
+ * Дата создания: 23-05-2026.
+ * Автор создания: 1.
+ */
+
+/**
+ * Функция для безопасного выполнения сетевого запроса с логированием и обработкой ошибок.
+ *
+ * @param tag тег для логирования.
+ * @param message сообщение для логирования.
+ * @param execute функция для выполнения.
+ *
+ * @return [Result.success] при успешном выполнении или [Result.failure] при возникновении ошибки.
+ */
 suspend fun <T> safeCall(
     tag: String,
     message: String,
     execute: suspend () -> T,
 ): Result<T> {
     return try {
-        logcat(tag, INFO) { "Начало операции — $message" }
+        logcat(tag, INFO) { "Начало запроса — $message" }
         val response = execute()
         logcat(tag) { "Успешно — $message (ответ: $response)" }
         Result.success(response)
@@ -32,13 +48,22 @@ suspend fun <T> safeCall(
     }
 }
 
+/**
+ * Функция для выполнения сетевого запроса с логированием.
+ *
+ * @param tag тег для логирования.
+ * @param message сообщение для логирвания.
+ * @param execute функция для выполнения.
+ *
+ * @return результат выполнения сетевого запроса.
+ */
 suspend fun <T> logCall(
     tag: String,
     message: String,
     execute: suspend () -> T,
 ): T {
     try {
-        logcat(tag, INFO) { "Начало операции — $message" }
+        logcat(tag, INFO) { "Начало запроса — $message" }
         val response = execute()
         logcat(tag) { "Успешно — $message (ответ: $response)" }
         return response

@@ -1,13 +1,23 @@
 package com.hrconnect.netlib.data.remote
 
 import com.google.common.truth.Truth
+import com.hrconnect.netlib.common.util.BaseApiTest
 import com.hrconnect.netlib.common.util.logCall
 import com.hrconnect.netlib.data.remote.dto.UserDto
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
+/**
+ * Класс с тестами для проверки работы API-интерфейса авторизации.
+ *
+ * Дата создания: 23-05-2026.
+ * Автор создания: 1.
+ */
 class AuthApiTest : BaseApiTest() {
 
+    /**
+     * Тест выполнения запроса авторизации.
+     */
     @Test
     fun login_returnsAuthResponse() = runBlocking {
         Truth.assertThat(authResponse.id).isEqualTo(1)
@@ -19,6 +29,9 @@ class AuthApiTest : BaseApiTest() {
         Truth.assertThat(authResponse.refreshToken).isNotEmpty()
     }
 
+    /**
+     * Тест выполнения запроса получения профиля по токену.
+     */
     @Test
     fun getProfileByToken_returnsUser() = runBlocking {
         val mockUser = UserDto(
