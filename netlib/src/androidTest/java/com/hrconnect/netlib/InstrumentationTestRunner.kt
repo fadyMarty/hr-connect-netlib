@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.test.runner.AndroidJUnitRunner
 
 /**
- * Тестовый раннер для инстурментальных тестов.
+ * Тестовый раннер для инструментальных тестов.
  *
  * Дата создания: 26-05-2026.
  * Автор создания: 1.

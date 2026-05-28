@@ -1,7 +1,7 @@
 package com.hrconnect.netlib.di
 
 import com.hrconnect.netlib.common.util.Constants
-import com.hrconnect.netlib.data.manager.TokenManager
+import com.hrconnect.netlib.data.manager.TokenManagerImpl
 import com.hrconnect.netlib.data.remote.AuthApi
 import com.hrconnect.netlib.data.remote.AuthInterceptor
 import com.hrconnect.netlib.data.remote.CandidateApi
@@ -9,10 +9,12 @@ import com.hrconnect.netlib.data.remote.DictionaryApi
 import com.hrconnect.netlib.data.remote.EmployeeApi
 import com.hrconnect.netlib.data.remote.HiringApi
 import com.hrconnect.netlib.data.remote.VacancyApi
+import com.hrconnect.netlib.domain.manager.TokenManager
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -21,7 +23,7 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
  * DI-модуль для тестирования библиотеки NetLib
  */
 val netLibModule = module {
-    singleOf(::TokenManager)
+    singleOf(::TokenManagerImpl).bind<TokenManager>()
     singleOf(::AuthInterceptor)
     single {
         OkHttpClient.Builder()

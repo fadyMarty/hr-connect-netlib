@@ -1,6 +1,8 @@
 package com.hrconnect.netlib.data.remote
 
-import com.hrconnect.netlib.data.manager.TokenManager
+import com.hrconnect.netlib.domain.manager.TokenManager
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -22,7 +24,9 @@ class AuthInterceptor(
      * @return ответ сервера после выполнения измененного запроса.
      */
     override fun intercept(chain: Interceptor.Chain): Response {
-        val token = tokenManager.getToken()
+        val token = runBlocking {
+            tokenManager.getToken().first()
+        }
         val request = chain.request()
             .newBuilder()
             .addHeader("Authorization", "Bearer $token")

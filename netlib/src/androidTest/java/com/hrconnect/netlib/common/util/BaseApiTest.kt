@@ -1,9 +1,8 @@
 package com.hrconnect.netlib.common.util
 
-import com.hrconnect.netlib.data.manager.TokenManager
 import com.hrconnect.netlib.data.remote.AuthApi
-import com.hrconnect.netlib.data.remote.dto.AuthResponseDto
 import com.hrconnect.netlib.data.remote.dto.LoginRequestDto
+import com.hrconnect.netlib.domain.manager.TokenManager
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.koin.test.KoinTest
@@ -19,25 +18,26 @@ abstract class BaseApiTest : KoinTest {
 
     private val tokenManager: TokenManager by inject()
     protected val authApi: AuthApi by inject()
-    protected lateinit var authResponse: AuthResponseDto
 
     /**
      * Функция для авторизации запросов и сохранения токена.
      */
     @Before
-    fun authenticate() = runBlocking {
-        authResponse = logCall(
-            tag = TAG,
-            message = "Авторизация"
-        ) {
-            authApi.login(
-                request = LoginRequestDto(
-                    username = "emilys",
-                    password = "emilyspass"
+    fun authenticate() {
+        return runBlocking {
+            safeCall(
+                tag = TAG,
+                message = "Авторизация"
+            ) {
+                val authResponse = authApi.login(
+                    request = LoginRequestDto(
+                        username = "emilys",
+                        password = "emilyspass"
+                    )
                 )
-            )
+                tokenManager.saveToken(authResponse.accessToken)
+            }
         }
-        tokenManager.saveToken(authResponse.accessToken)
     }
 
     companion object {
